@@ -1,7 +1,7 @@
 package models
 
 type Portfolio struct {
-	Img			string `json:"img"`
+	Img			[]string `json:"img"`
 	Title			string `json:"title"`
 	Description 	string `json:"description"`
 	TechStack 	string `json:"techStack"`

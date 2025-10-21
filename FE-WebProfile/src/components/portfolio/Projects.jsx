@@ -1,26 +1,48 @@
 import React, { useState } from "react";
 import { faArrowRight, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import { Navigation, Pagination, Autoplay } from "swiper/modules";
 
 const Projects = ({ data }) => {
   const [showModal, setShowModal] = useState(false);
 
   const handleOpenModal = (e) => {
-    e.preventDefault(); // Supaya tidak redirect
+    e.preventDefault();
     setShowModal(true);
   };
 
   const handleCloseModal = () => setShowModal(false);
 
+  // Pastikan data.img adalah array
+  const images = Array.isArray(data?.img) ? data.img : [data?.img];
+
   return (
     <>
       {/* Card Utama */}
       <div className="max-w-106 h-full flex flex-col rounded-lg outline-[#FFFFFF] hover:shadow-2xl duration-300 transition-all shadow-gray-300 border border-gray-200">
-        <img
-          src={import.meta.env.VITE_BASE_URL + data?.img}
-          alt={`${data?.title} image`}
-          className="rounded-t-lg"
-        />
+        <div>
+          <Swiper
+            modules={[Pagination, Autoplay]}
+            pagination={{ clickable: true }}
+            autoplay={{ delay: 3000, disableOnInteraction: false }}
+            loop={images.length > 1}
+            className="w-full h-full"
+          >
+            {images.map((imgUrl, index) => (
+              <SwiperSlide key={index}>
+                <img
+                  src={import.meta.env.VITE_BASE_URL + imgUrl}
+                  alt={`${data?.title} image ${index + 1}`}
+                  className="w-full h-full object-cover"
+                />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </div>
 
         <div className="p-4 xs:p-8 flex flex-col justify-between h-full flex-grow">
           <div>
@@ -68,11 +90,26 @@ const Projects = ({ data }) => {
             >
               <FontAwesomeIcon icon={faXmark} size="lg" />
             </button>
-            <img
-              src={import.meta.env.VITE_BASE_URL + data?.img}
-              alt={`${data?.title} image`}
+
+            {/* Swiper Slider */}
+            <Swiper
+              modules={[Pagination, Autoplay]}
+              pagination={{ clickable: true }}
+              autoplay={{ delay: 3000, disableOnInteraction: false }}
+              loop
               className="rounded-lg mb-4"
-            />
+            >
+              {images.map((imgSrc, index) => (
+                <SwiperSlide key={index}>
+                  <img
+                    src={import.meta.env.VITE_BASE_URL + imgSrc}
+                    alt={`${data?.title} image ${index + 1}`}
+                    className="rounded-lg w-full object-contain max-h-64 mx-auto"
+                  />
+                </SwiperSlide>
+              ))}
+            </Swiper>
+
             <h2 className="text-xl font-semibold mb-2 text-gray-900">
               {data?.title}
             </h2>
@@ -105,7 +142,7 @@ const Projects = ({ data }) => {
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 bg-picto-primary text-white font-semibold py-2 px-5 rounded-md hover:bg-picto-primary/80 transition-all mb-2 mr-2"
                 >
-                  View Portfolio {index + 1}
+                  View Portfolio {data.link.length > 1 && ` ${index + 1}`}
                   <FontAwesomeIcon icon={faArrowRight} />
                 </a>
               ))}
