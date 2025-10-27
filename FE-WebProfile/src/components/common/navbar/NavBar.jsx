@@ -9,6 +9,7 @@ const navItems = [
   { id: 4, name: "Portfolio", url: "portfolio" },
   // { id: 5, name: "Blog", url: "blog" },
   { id: 6, name: "My Services", url: "services" },
+  { id: 7, name: "Contact", url: "contact" },
 ];
 
 const handleMenuClick = () => {
@@ -91,15 +92,13 @@ const NavBar = () => {
             {menu}
           </ul>
           <p className="">
-            <Link
+            <a
               className="btn btn-sm xs:btn-md sm:btn-lg btn-primary"
-              href="#contact"
-              to={`contact`}
-              smooth={true}
-              duration={900}
+              href="/CV/CVHafidh.pdf"
+              download="CV-Ahmad_Hafidh_Ayatullah.pdf"
             >
-              Contact
-            </Link>
+              Download CV
+            </a>
           </p>
         </div>
       </div>
